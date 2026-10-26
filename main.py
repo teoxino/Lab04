@@ -1,7 +1,8 @@
 from lingotto_fiere import LingottoFiere
 
+
 def menu():
-    print(f'\n--- MENU LINGOTTO FIERE ---')
+    print(f"\n--- MENU LINGOTTO FIERE ---")
     print("1. Modifica nome del centro fieristico")
     print("2. Carica dati da file")
     print("3. Assegna stand a espositore")
@@ -11,6 +12,7 @@ def menu():
 
     return input("Scegli un'opzione >> ")
 
+
 def main():
     lingotto = LingottoFiere("Lingotto Fiere")
 
@@ -19,7 +21,9 @@ def main():
 
         if scelta == "1":
             nuovo_nome = input("Inserisci il nuovo nome del centro fieristico: ")
-            # TODO: Aggiorna il nome del centro fieristico
+            # Aggiorna il nome del centro fieristico usando la property / setter
+            lingotto.nome = nuovo_nome
+            print(f"Nome aggiornato con successo: {lingotto.nome}")
 
         elif scelta == "2":
             file_path = "dati_lingotto.csv"
@@ -28,6 +32,8 @@ def main():
                 print("Dati caricati correttamente.")
             except FileNotFoundError:
                 print("File non trovato.")
+            except Exception as e:
+                print(f"Errore durante il caricamento del file: {e}")
 
         elif scelta == "3":
             codice_stand = input("Codice stand: ")
@@ -39,14 +45,17 @@ def main():
                 print(f"Errore: {e}")
 
         elif scelta == "4":
-            print("\n--- Elenco espositori ---")
+            print(f"\n--- Elenco espositori [{lingotto.nome}] ---")
             lingotto.elenca_espositori()
 
         elif scelta == "5":
             stand_ordinati = lingotto.stand_ordinati_per_prezzo()
-            print("\n--- Stand ordinati per prezzo ---")
-            for s in stand_ordinati:
-                print(s)
+            print(f"\n--- Stand ordinati per prezzo [{lingotto.nome}] ---")
+            if not stand_ordinati:
+                print("Nessuno stand presente nel sistema. Caricare prima i dati da file.")
+            else:
+                for s in stand_ordinati:
+                    print(s)
 
         elif scelta == "6":
             print("Uscita dal programma.")
@@ -54,6 +63,7 @@ def main():
 
         else:
             print("Scelta non valida.")
+
 
 if __name__ == "__main__":
     main()
